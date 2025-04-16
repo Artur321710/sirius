@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уроки | SiriusSummer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f5ebe0;
+        }
+        header {
+            background-color: #2c2c2c;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 20px;
+            margin-right: 5px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        nav li {
+            margin-right: 20px;
+        }
+        nav a {
+            color: #d2b48c;
+            text-decoration: none;
+            transition: color 0.5s ease, transform 0.5s ease; 
+        }
+        nav a:hover {
+            color: #ff0000; 
+            transform: scale(1.3); 
+        }
+        .search-bar {
+            border-radius: 20px;
+            border: none;
+            padding: 8px 12px;
+            width: 200px;
+            margin-left: 20px;
+        }
+        .button {
+            background-color: #d2b48c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+        .button:hover {
+            background-color: #ff0000; 
+        }
+        
+        /* Стили страницы уроков */
+        .page-header {
+            background-color: #d2b48c;
+            color: white;
+            padding: 40px 80px;
+        }
+        .page-header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .page-header p {
+            font-size: 18px;
+            margin: 10px 0 0;
+        }
+        
+        .courses-container {
+            padding: 40px 80px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            width: calc(33.333% - 20px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        .course-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .course-content {
+            padding: 20px;
+        }
+        .course-title {
+            font-size: 20px;
+            margin: 0 0 10px;
+            color: #2c2c2c;
+        }
+        .course-description {
+            font-size: 14px;
+            color: #777;
+            margin: 0 0 15px;
+            line-height: 1.5;
+        }
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .course-level {
+            background-color: #d2b48c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .course-progress {
+            margin-bottom: 15px;
+        }
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #d2b48c;
+        }
+        .course-btn {
+            display: block;
+            text-align: center;
+            background-color: #d2b48c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .course-btn:hover {
+            background-color: #ff0000;
+        }
+        
+        .filter-section {
+            background-color: #2c2c2c;
+            padding: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+        }
+        .filter-label {
+            color: #d2b48c;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        .filter-select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: white;
+            margin-right: 20px;
+        }
+        .reset-btn {
+            background-color: transparent;
+            color: #d2b48c;
+            border: 1px solid #d2b48c;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .reset-btn:hover {
+            background-color: #ff0000;
+            border-color: #ff0000;
+            color: white;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 30px 0 50px;
+        }
+        .pagination a {
+            color: #2c2c2c;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .pagination a.active {
+            background-color: #d2b48c;
+            color: white;
+            border: 1px solid #d2b48c;
+        }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            SiriusSummer
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Главная страница</a></li>
+                <li><a href="#" style="color: #ff0000;">Уроки</a></li>
+                <li><a href="#">Форум</a></li>
+                <li><a href="#">Профиль</a></li>
+            </ul>
+            <form>
+                <input type="text" class="search-bar" placeholder="Поиск">
+            </form>
+        </nav>
+        <button class="button">Выйти</button>
+    </header>
+    
+    <div class="page-header">
+        <h1>Все курсы</h1>
+        <p>Выберите курс для изучения или продолжите уже начатые</p>
+    </div>
+    
+    <div class="filter-section">
+        <div class="filter-group">
+            <span class="filter-label">Фильтры:</span>
+            <select class="filter-select">
+                <option>Все категории</option>
+                <option>Программирование</option>
+                <option>Дизайн</option>
+                <option>Тестирование</option>
+                <option>Аналитика</option>
+            </select>
+            <select class="filter-select">
+                <option>Все уровни</option>
+                <option>Начинающий</option>
+                <option>Средний</option>
+                <option>Продвинутый</option>
+            </select>
+            <select class="filter-select">
+                <option>Все статусы</option>
+                <option>Не начато</option>
+                <option>В процессе</option>
+                <option>Завершено</option>
+            </select>
+        </div>
+        <button class="reset-btn">Сбросить фильтры</button>
+    </div>
+    
+    <div class="courses-container">
+        <div class="course-card">
+            <img src="https://www.codebook.in/static/main/img/courses/4.jpg" alt="Python" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Python для начинающих</h3>
+                <p class="course-description">Изучите основы Python с нуля: синтаксис, структуры данных, функции и многое другое.</p>
+                <div class="course-meta">
+                    <span>24 урока</span>
+                    <span class="course-level">Начинающий</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Продолжить</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://issoft.by/wp-content/uploads/2012/06/qa-iznutri.jpg" alt="QA" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Основы тестирования ПО</h3>
+                <p class="course-description">Введение в профессию QA-инженера: виды тестирования, баг-репорты, тест-кейсы.</p>
+                <div class="course-meta">
+                    <span>18 уроков</span>
+                    <span class="course-level">Начинающий</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>30%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Продолжить</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://info-profi.net/wp-content/uploads/2020/06/%D0%93%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%D0%B5%D1%80.jpg" alt="Design" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Графический дизайн</h3>
+                <p class="course-description">Основы работы с Figma: создание интерфейсов, работа с компонентами, прототипирование.</p>
+                <div class="course-meta">
+                    <span>15 уроков</span>
+                    <span class="course-level">Начинающий</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 15%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Продолжить</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://coddyschool.com/upload/files/blog/1wpwd.jpg   " alt="Web" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Веб-разработка</h3>
+                <p class="course-description">HTML, CSS и JavaScript для создания современных веб-приложений.</p>
+                <div class="course-meta">
+                    <span>30 уроков</span>
+                    <span class="course-level">Средний</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Начать</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://media.istockphoto.com/id/1673063844/vector/sql-dtabase-flat-design.jpg?s=612x612&w=0&k=20&c=t-YSg_Wl7z8nJwhqZ2e74p_8tY98XWrJlOG9Vmdb_HY=" alt="SQL" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">SQL и базы данных</h3>
+                <p class="course-description">Изучите язык запросов SQL и основы работы с реляционными базами данных.</p>
+                <div class="course-meta">
+                    <span>20 уроков</span>
+                    <span class="course-level">Средний</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Начать</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://techrocks.ru/wp-content/uploads/2019/01/1_Dyu63sMUVL-gYEZISOE2BQ.jpeg" alt="Algorithms" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Алгоритмы и структуры данных</h3>
+                <p class="course-description">Основные алгоритмы сортировки и поиска, структуры данных и их применение.</p>
+                <div class="course-meta">
+                    <span>25 уроков</span>
+                    <span class="course-level">Продвинутый</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Начать</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://pngimg.com/d/github_PNG15.png" alt="Git" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Git и GitHub</h3>
+                <p class="course-description">Система контроля версий Git и работа с платформой GitHub для совместной разработки.</p>
+                <div class="course-meta">
+                    <span>12 уроков</span>
+                    <span class="course-level">Начинающий</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Повторить</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://habrastorage.org/getpro/habr/post_images/1d5/28e/2cb/1d528e2cb5fbc29ad16c74e5d883c371.png" alt="Django" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Django: создание веб-приложений</h3>
+                <p class="course-description">Фреймворк Django для создания полноценных веб-приложений на Python.</p>
+                <div class="course-meta">
+                    <span>28 уроков</span>
+                    <span class="course-level">Средний</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="course-btn">Повторить</a>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <img src="https://www.h2kinfosys.com/blog/wp-content/uploads/2024/10/s-with-python.png" alt="Automation" class="course-img">
+            <div class="course-content">
+                <h3 class="course-title">Автоматизированное тестирование</h3>
+                <p class="course-description">Selenium, PyTest и другие инструменты для автоматизации тестирования.</p>
+                <div class="course-meta">
+                    <span>22 урока</span>
+                    <span class="course-level">Продвинутый</span>
+                </div>
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Прогресс:</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>https://coddyschool.com/upload/files/blog/1wpwd.jpg
+                <a href="#" class="course-btn">Повторить</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+    </div>
+</body>
+</html>

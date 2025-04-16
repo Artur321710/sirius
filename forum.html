@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форум | SiriusSummer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f5ebe0;
+        }
+        header {
+            background-color: #2c2c2c;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 20px;
+            margin-right: 5px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        nav li {
+            margin-right: 20px;
+        }
+        nav a {
+            color: #d2b48c;
+            text-decoration: none;
+            transition: color 0.5s ease, transform 0.5s ease; 
+        }
+        nav a:hover {
+            color: #ff0000; 
+            transform: scale(1.3); 
+        }
+        .search-bar {
+            border-radius: 20px;
+            border: none;
+            padding: 8px 12px;
+            width: 200px;
+            margin-left: 20px;
+        }
+        .button {
+            background-color: #d2b48c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+        .button:hover {
+            background-color: #ff0000; 
+        }
+        
+        /* Стили для форума */
+        .forum-header {
+            background-color: #d2b48c;
+            color: white;
+            padding: 40px 80px;
+            text-align: center;
+        }
+        .forum-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .forum-header p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .forum-container {
+            padding: 40px 80px;
+            display: flex;
+        }
+        .categories {
+            width: 250px;
+            margin-right: 40px;
+        }
+        .categories h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c2c2c;
+        }
+        .category {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #e6d5c3;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .category:hover {
+            background-color: #d2b48c;
+            color: white;
+        }
+        .category.active {
+            background-color: #2c2c2c;
+            color: white;
+        }
+        .discussions {
+            flex: 1;
+        }
+        .discussion {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .discussion-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c2c2c;
+        }
+        .discussion-meta {
+            color: #777;
+            font-size: 14px;
+        }
+        .discussion-author {
+            color: #d2b48c;
+            font-weight: bold;
+        }
+        .discussion-content {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .discussion-tags {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background-color: #556b2f;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .new-discussion {
+            background-color: #2c2c2c;
+            padding: 40px 80px;
+            color: white;
+            text-align: center;
+        }
+        .new-discussion h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .new-discussion-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-family: Arial, sans-serif;
+        }
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #d2b48c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            SiriusSummer
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Главная страница</a></li>
+                <li><a href="/">Уроки</a></li>
+                <li><a href="forum" style="color: #ff0000;">Форум</a></li>
+                <li><a href="profile">Профиль</a></li>
+            </ul>
+            <form>
+                <input type="text" class="search-bar" placeholder="Поиск по форуму">
+            </form>
+        </nav>
+        <button class="button">Вход / регистрация</button>
+    </header>
+    
+    <section class="forum-header">
+        <h1>Форум сообщества SiriusSummer</h1>
+        <p>Здесь вы можете задавать вопросы, делиться знаниями и общаться с другими участниками нашего сообщества. Вместе мы учимся быстрее!</p>
+    </section>
+    
+    <section class="forum-container">
+        <div class="categories">
+            <h3>Категории</h3>
+            <div class="category active">Все обсуждения</div>
+            <div class="category">Python</div>
+            <div class="category">Тестирование</div>
+            <div class="category">Графический дизайн</div>
+            <div class="category">Вопросы по обучению</div>
+            <div class="category">Проекты</div>
+            <div class="category">Карьера</div>
+            <div class="category">Новости</div>
+        </div>
+        
+        <div class="discussions">
+            <div class="discussion">
+                <div class="discussion-header">
+                    <div class="discussion-title">Как оптимизировать код на Python?</div>
+                    <div class="discussion-meta">3 часа назад · 12 ответов</div>
+                </div>
+                <div class="discussion-content">
+                    Недавно начал изучать Python и столкнулся с проблемой медленной работы моего кода. Какие есть основные способы оптимизации кода на Python? Особенно интересует работа с большими массивами данных.
+                </div>
+                <div class="discussion-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Оптимизация</span>
+                    <span class="tag">Новичкам</span>
+                </div>
+                <div class="discussion-author">Автор: <span class="discussion-author">Иван_Петров</span></div>
+            </div>
+            
+            <div class="discussion">
+                <div class="discussion-header">
+                    <div class="discussion-title">Лучшие практики тестирования ПО</div>
+                    <div class="discussion-meta">5 часов назад · 8 ответов</div>
+                </div>
+                <div class="discussion-content">
+                    Хочу поделиться своим опытом в тестировании и узнать, какие практики используете вы. Какие инструменты и методологии вы считаете наиболее эффективными для обеспечения качества ПО?
+                </div>
+                <div class="discussion-tags">
+                    <span class="tag">Тестирование</span>
+                    <span class="tag">QA</span>
+                    <span class="tag">Практика</span>
+                </div>
+                <div class="discussion-author">Автор: <span class="discussion-author">Анна_Тестер</span></div>
+            </div>
+            
+            <div class="discussion">
+                <div class="discussion-header">
+                    <div class="discussion-title">Как выбрать первый язык программирования?</div>
+                    <div class="discussion-meta">1 день назад · 25 ответов</div>
+                </div>
+                <div class="discussion-content">
+                    Я только начинаю свой путь в программировании и не могу определиться с первым языком. Что посоветуете выбрать для максимально быстрого старта в IT? Интересны разные варианты карьеры.
+                </div>
+                <div class="discussion-tags">
+                    <span class="tag">Новичкам</span>
+                    <span class="tag">Карьера</span>
+                    <span class="tag">Советы</span>
+                </div>
+                <div class="discussion-author">Автор: <span class="discussion-author">Начинающий_Dev</span></div>
+            </div>
+            
+            <div class="discussion">
+                <div class="discussion-header">
+                    <div class="discussion-title">Примеры успешных проектов после обучения</div>
+                    <div class="discussion-meta">2 дня назад · 15 ответов</div>
+                </div>
+                <div class="discussion-content">
+                    Давайте соберем здесь примеры реальных проектов, которые участники сообщества сделали после прохождения обучения. Это может вдохновить новичков и показать, чего можно достичь!
+                </div>
+                <div class="discussion-tags">
+                    <span class="tag">Проекты</span>
+                    <span class="tag">Вдохновение</span>
+                    <span class="tag">Портфолио</span>
+                </div>
+                <div class="discussion-author">Автор: <span class="discussion-author">Успешный_Выпускник</span></div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="new-discussion">
+        <h2>Создать новое обсуждение</h2>
+        <div class="new-discussion-form">
+            <form>
+                <div class="form-group">
+                    <label for="title">Заголовок</label>
+                    <input type="text" id="title" placeholder="Кратко опишите тему обсуждения">
+                </div>
+                <div class="form-group">
+                    <label for="category">Категория</label>
+                    <select id="category">
+                        <option>Выберите категорию</option>
+                        <option>Python</option>
+                        <option>Тестирование</option>
+                        <option>Графический дизайн</option>
+                        <option>Вопросы по обучению</option>
+                        <option>Проекты</option>
+                        <option>Карьера</option>
+                        <option>Новости</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="content">Содержание</label>
+                    <textarea id="content" placeholder="Подробно опишите ваш вопрос или тему для обсуждения"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tags">Теги (через запятую)</label>
+                    <input type="text" id="tags" placeholder="python, новичкам, оптимизация">
+                </div>
+                <button type="submit" class="submit-btn">Опубликовать обсуждение</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
